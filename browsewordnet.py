@@ -1,13 +1,18 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from flask import Flask
+app = Flask(__name__)
+app.config.from_pyfile('flaskapp.cfg')
+DB_LOC = app.config['DB_LOC']
+
 # Import modules for CGI handling 
 import cgi, cgitb, sqlite3, sys, traceback, time, re
 
 def browse(wnsearch, wnlang):
 	lookup = ""
 	try:
-		conn = sqlite3.connect('static/db/wnall.db')
+		conn = sqlite3.connect(DB_LOC+'/db/wnall.db')
 		#curs = conn.cursor()
 
 		# when looking up synset ids...

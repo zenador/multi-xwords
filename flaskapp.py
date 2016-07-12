@@ -1,5 +1,9 @@
-from flask import Flask, render_template, request, session
+import os
+from datetime import datetime
+from flask import Flask, request, flash, url_for, redirect, render_template, abort, send_from_directory, session
+
 app = Flask(__name__)
+app.config.from_pyfile('flaskapp.cfg')
 
 from crossword import run
 from browsewordnet import browse
@@ -21,7 +25,7 @@ def prog():
 		gridlength, sollang, cwid, listtuple = run(session)
 		return render_template('puzzle.html', gridlength=gridlength, sollang=sollang, cwid=cwid, listtuple=listtuple)
 	else:
-		return "To start, click on the 'Generate Puzzle' button at the top right, then wait a while for the puzzle to load (may take up a few minutes)"
+		return "To start, click on the 'Generate Puzzle' button at the top right, then wait a while for the puzzle to load (may take up to a few minutes)"
 
 @app.route("/options")
 def options():
@@ -44,7 +48,14 @@ def wordnet():
 	lookup = browse(wnsearch, wnlang)
 	return render_template('browse.html', langs=["eng","cmn","jpn"], wnsearch=wnsearch, wnlang=wnlang, lookup=lookup)
 
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+@app.route('/getocal/wn-ocal/img/<path:filename>')
+def getocal(filename):
+    return send_from_directory(app.config['SERVE_OCAL_LOC']+"/wn-ocal/img", filename, as_attachment=False)
 
-if __name__ == "__main__":
-	app.run(debug=True)
+app.secret_key = app.config['SESSION_SECRET']
+
+if __name__ == '__main__':
+	if app.config['IS_OPENSHIFT']:
+		app.run()
+	else:
+		app.run(debug=True)

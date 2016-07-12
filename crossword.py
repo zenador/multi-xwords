@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from flask import Flask
+app = Flask(__name__)
+app.config.from_pyfile('flaskapp.cfg')
+DB_LOC = app.config['DB_LOC']
+OCAL_LOC = app.config['OCAL_LOC']
+
 import random, re, datetime, time, string, sys, traceback, sqlite3, cgi, cgitb
 from copy import copy as duplicate
 from collections import defaultdict
@@ -460,7 +466,7 @@ def getclues(conn, synset, synname, gridlength, sollang, cluelang, cluetype, clu
 		aword.append(synkanji.replace("_", " "))
 	elif cluetype == 5:
 		for [syndef] in conn.execute("SELECT def FROM synset_def WHERE synset=? AND lang='img' ORDER BY random()", [synset]):
-			aword.append("""<img width=20px src='./static/wn-ocal/img/%s.png' alt='%s' onMouseover=\\"ddrivetip('<img width=150px src=&quot;./static/wn-ocal/img/%s.png&quot; alt=&quot;%s&quot;>')\\" onMouseout='hideddrivetip()'>""" %(syndef,syndef,syndef,syndef))
+			aword.append("""<img width=20px src='%s/wn-ocal/img/%s.png' alt='%s' onMouseover=\\"ddrivetip('<img width=150px src=&quot;%s/wn-ocal/img/%s.png&quot; alt=&quot;%s&quot;>')\\" onMouseout='hideddrivetip()'>""" %(OCAL_LOC,syndef,syndef,OCAL_LOC,syndef,syndef))
 		if (len(aword) < 1):
 			returnEarly = True
 
@@ -496,7 +502,7 @@ def getclues(conn, synset, synname, gridlength, sollang, cluelang, cluetype, clu
 		bword.append(synkanji.replace("_", " "))
 	elif clue2type == 5:
 		for [syndef] in conn.execute("SELECT def FROM synset_def WHERE synset=? AND lang='img' ORDER BY random()", [synset]):
-			bword.append("""<img width=20px src='./static/wn-ocal/img/%s.png' alt='%s' onMouseover=\\"ddrivetip('<img width=150px src=&quot;./static/wn-ocal/img/%s.png&quot; alt=&quot;%s&quot;>')\\" onMouseout='hideddrivetip()'>""" %(syndef,syndef,syndef,syndef))
+			bword.append("""<img width=20px src='%s/wn-ocal/img/%s.png' alt='%s' onMouseover=\\"ddrivetip('<img width=150px src=&quot;%s/wn-ocal/img/%s.png&quot; alt=&quot;%s&quot;>')\\" onMouseout='hideddrivetip()'>""" %(OCAL_LOC,syndef,syndef,OCAL_LOC,syndef,syndef))
 		if forceclue2:
 			if (len(bword) < 1):
 				returnEarly = True
@@ -617,7 +623,7 @@ def run(session):
 		byewordnet = list(set(byewordnet))
 		yescustom = len(setwords) + len(sets) + len(words) + len(byewordnet)
 
-		conn = sqlite3.connect('static/db/wn-multi.db')
+		conn = sqlite3.connect(DB_LOC+'/db/wn-multi.db')
 		#curs = conn.cursor()
 		somewords = {}
 
