@@ -85,7 +85,7 @@ oyClueList.prototype.render = function(){
 oyClueList.prototype.renderLinks = function(){
 	var buf = "";
 	for (var i=0; i < this.clues.length; i++){
-		buf += "<a href='../cgi-bin/cwpz/browsewordnet.cgi?wnsearch=" + this.clues[i].synset + "' target='wordnet'>" + this.clues[i].answer + "</a><br/>";
+		buf += "<a href='wordnet?wnsearch=" + this.clues[i].synset + "' target='wordnet'>" + this.clues[i].answer + "</a><br/>";
 	}
 	return buf; 
 }

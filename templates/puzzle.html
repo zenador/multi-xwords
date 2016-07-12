@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+	<title>WordNet Multilingual Crossword</title>
+	<link rel="stylesheet" href="./static/css/base.css" type="text/css">
+</head>
+<body>
+
+<div id="dhtmltooltip"></div>
+
+<script type="text/javascript">
+
+/***********************************************
+* Cool DHTML tooltip script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+var offsetxpoint=-10 //Customize x offset of tooltip
+var offsetypoint=10 //Customize y offset of tooltip
+var ie=document.all
+var ns6=document.getElementById && !document.all
+var enabletip=false
+if (ie||ns6)
+var tipobj=document.all? document.all["dhtmltooltip"] : document.getElementById? document.getElementById("dhtmltooltip") : ""
+
+function ietruebody(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function ddrivetip(thetext, thecolor, thewidth){
+if (ns6||ie){
+if (typeof thewidth!="undefined") tipobj.style.width=thewidth+"px"
+if (typeof thecolor!="undefined" && thecolor!="") tipobj.style.backgroundColor=thecolor
+tipobj.innerHTML=thetext
+enabletip=true
+return false
+}
+}
+
+function positiontip(e){
+if (enabletip){
+/*
+var curX=(ns6)?e.pageX : event.clientX+ietruebody().scrollLeft;
+var curY=(ns6)?e.pageY : event.clientY+ietruebody().scrollTop;
+//Find out how close the mouse is to the corner of the window
+var rightedge=ie&&!window.opera? ietruebody().clientWidth-event.clientX-offsetxpoint : window.innerWidth-e.clientX-offsetxpoint-20
+var bottomedge=ie&&!window.opera? ietruebody().clientHeight-event.clientY-offsetypoint : window.innerHeight-e.clientY-offsetypoint-20
+
+var leftedge=(offsetxpoint<0)? offsetxpoint*(-1) : -1000
+
+//if the horizontal distance isn't enough to accomodate the width of the context menu
+if (rightedge<tipobj.offsetWidth)
+//move the horizontal position of the menu to the left by its width
+tipobj.style.left=ie? ietruebody().scrollLeft+event.clientX-tipobj.offsetWidth+"px" : window.pageXOffset+e.clientX-tipobj.offsetWidth+"px"
+else if (curX<leftedge)
+tipobj.style.left="5px"
+else
+//position the horizontal position of the menu where the mouse is positioned
+tipobj.style.left=curX+offsetxpoint+"px"
+
+//same concept with the vertical position
+if (bottomedge<tipobj.offsetHeight)
+tipobj.style.top=ie? ietruebody().scrollTop+event.clientY-tipobj.offsetHeight-offsetypoint+"px" : window.pageYOffset+e.clientY-tipobj.offsetHeight-offsetypoint+"px"
+else
+tipobj.style.top=curY+offsetypoint+"px"
+*/
+tipobj.style.visibility="visible"
+
+tipobj.style.right=0+"px"
+tipobj.style.top=0+"px"
+}
+}
+
+function hideddrivetip(){
+if (ns6||ie){
+enabletip=false
+tipobj.style.visibility="hidden"
+//tipobj.style.left="-1000px"
+tipobj.style.backgroundColor=''
+tipobj.style.width=''
+}
+}
+
+document.onmousemove=positiontip
+
+</script>
+
+	<!-- 
+		here we have oygContext top DOM element to which the play area will be bound;
+		the HTML template has more binding sites for various visual parts of the puzzle: 
+		oygHeader, oygHeaderMenu, oygState, oygPuzzle, oygPuzzleFooter, oygListH, oygListV, oygFooter;
+		all element names for binding are prefixed with "oyg"
+	-->
+	<div id="oygContext" align="center" style="width:100%;">
+		<table class="oyOuterFrame" border="0" cellpadding="0" cellspacing="0">
+			<tr><td align="center">
+				<table class="oyFrame" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td colspan="5">
+							<table class="oyFrame" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr class="oyHeader">
+									<td class="oyHeader">
+										<div id="oygHeader"></div>
+									</td>
+									<td align="right">	
+										<div id="oygHeaderMenu"></div>								
+									</td> 
+								</tr>					
+							</table>
+						</td>  
+					</tr>
+					<tr style="height: 4px;">
+						<td colspan="5"></td>
+					</tr>
+					<tr>  
+						<td rowspan="3" class="oyPuzzleCell" align="center" valign="top"> 
+							<div id="oygState"></div>
+							<div class="oyPuzzle" id="oygPuzzle"></div>
+							<div class="oyPuzzleFooter" id="oygPuzzleFooter"></div>			
+						</td>  
+						<td class="oyListCellDot">.</td>    
+						<td class="oyListCell" valign="top" id="oygListH"></td>
+					</tr>
+					<tr style="height: 4px;">
+						<td colspan="4"></td>
+					</tr>		
+					<tr>  
+						<td class="oyListCellDot">.</td>   
+						<td class="oyListCell" valign="top" id="oygListV"></td>					
+					</tr>
+					<tr style="height: 4px;">
+						<td colspan="5"></td>
+					</tr>			
+					<tr>
+						<td colspan="5" class="oyFooter"> 
+							<div id="oygFooter"></div>
+						</td>
+					</tr>			
+				</table>
+			</td></tr>
+		</table>
+		<div id="oygStatic" align="center" style="font-size: 10px; color: #4282B5; font-family: Arial;"></div>
+	</div>  
+
+	<!-- 
+		here we include all oy-cword-1.0 CSS files; all our style class name are prefixed with "oy" 
+	-->
+	<link rel="stylesheet" href="./static/css/base.css" type="text/css">
+
+	<!-- 
+		here we include all oy-cword-1.0 JavaScript files; order is important; 
+		all the files can be combined into one file to reduce number of separate requests
+	-->
+	<script type="text/javascript" src="./static/js/oyPrologue.js"></script>	
+	<script type="text/javascript" src="./static/js/oyJsrAjax.js"></script>	
+	<script type="text/javascript" src="./static/js/oyClue.js"></script>	
+	<script type="text/javascript" src="./static/js/oyMenu.js"></script>	
+	<script type="text/javascript" src="./static/js/oyPuzzle.js"></script>	
+	<script type="text/javascript" src="./static/js/oyServer.js"></script>	
+	<script type="text/javascript" src="./static/js/oySign.js"></script>	
+	<script type="text/javascript" src="./static/js/oyMisc.js"></script>	
+ 
+	<script type="text/javascript"><!--
+
+		// 
+		//	here we include our own puzzle; it has to be fully prepared with all words properly arranged on the grid;
+		//	currently only one instance of the puzzle can be embedded into the page, we may fix this in the future
+		// 
+		var oygCrosswordPuzzle = new oyCrosswordPuzzle (
+			"{{ cwid }}",
+			".",
+			"{{ cwid }}",
+			"WordNet Multilingual Crossword",
+			"",
+			[
+				{% for word in listtuple %}
+				new oyCrosswordClue({{ word|safe }}),
+				{% endfor %}
+			],
+			{{ gridlength }},{{ gridlength }}
+		);
+		//
+		//	here we configure puzzle options, callbacks and publisher information
+		// 
+		 
+		// publisher information
+		oygCrosswordPuzzle.publisherName = "";
+		oygCrosswordPuzzle.publisherURL = "";
+
+		// game exit URL
+		oygCrosswordPuzzle.leaveGameURL = "";  
+      
+		// this is how to turn off server support; score submission and action tracking will be disabled
+		oygCrosswordPuzzle.canTalkToServer = false;
+	
+	--></script>	
+
+	<!--
+		here we instantiate the puzzle and bind it to the HTML template above and show it to the user
+	-->
+	<script type="text/javascript" src="./static/js/oyEpilogue.js"></script>
+
+<script type="text/javascript">
+function scrnkey(item) { 
+	//document.getElementsByClassName("oyCellActive").item(0).innerHTML = item; //don't do this, breaks the flow if you change innerHTML, but somehow you can't edit value this way
+	var x = oygCrosswordPuzzle.xpos;
+	var y = oygCrosswordPuzzle.ypos;
+	var target = oygCrosswordPuzzle.inputCache.getElement(x,y);
+	if (!target.readOnly){
+		target.value = item;
+		oygCrosswordPuzzle.moveToNextCell(x, y);
+	}
+}
+</script>
+<br/>
+<div id="donelinks"></div>
+
+{% if sollang == "jpn" %}
+<table class="scrnkeybd">
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="あ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぁ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="か"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="が"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="さ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ざ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="た"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="だ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="な"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="は"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ば"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぱ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ま"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="や"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ゃ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ら"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="わ"></td>
+	</tr>
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="い"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぃ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="き"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぎ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="し"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="じ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ち"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぢ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="に"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ひ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="び"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぴ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="み"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value=""></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value=""></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="り"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value=""></td>
+	</tr>
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="う"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぅ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="く"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぐ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="す"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ず"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="つ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="づ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぬ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ふ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぶ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぷ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="む"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ゆ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ゅ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="る"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value=""></td>
+	</tr>
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="え"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぇ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="け"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="げ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="せ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぜ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="て"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="で"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ね"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="へ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="べ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぺ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="め"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value=""></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value=""></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="れ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value=""></td>
+	</tr>
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="お"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぉ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="こ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ご"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="そ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぞ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="と"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ど"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="の"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ほ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぼ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ぽ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="も"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="よ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ょ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ろ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="を"></td>
+	</tr>
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ん"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="っ"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="ー"></td>
+	</tr>
+	</table>
+{% endif %}
+{% if sollang == "eng" %}
+<table class="scrnkeybd">
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="Q"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="W"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="E"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="R"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="T"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="Y"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="U"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="I"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="O"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="P"></td>
+	</tr>
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="A"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="S"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="D"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="F"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="G"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="H"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="J"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="K"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="L"></td>
+	</tr>
+	<tr>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="Z"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="X"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="C"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="V"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="B"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="N"></td>
+	<td><input type="button" class="scrnkey" onclick="scrnkey(value)" value="M"></td>
+	</tr>
+	</table>
+{% endif %}
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+	<title>Browse WordNet</title>
+	<link rel="stylesheet" href="./static/css/base.css" type="text/css">
+	<style type="text/css">
+		body { font-family:"Times New Roman", Times, serif; font-size: 16px; }
+
+		a.classylink { text-decoration: none; color: #000000; }
+
+		.invistable td { border: 0; }
+		.crampedtable td { padding: 0 5px; }
+
+		#lemmalookup td { vertical-align: top; }
+	</style>
+</head>
+<body>
+
+<script src="./static/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$('a.tag-copy').live('click', function(e){
+	$('#tagadd',top.frames["search"].document).val($(this).text());
+	$('#tagmod',top.frames["search"].document).val($(this).text());
+	return false; // to prevent default
+});
+</script>
+
+<b>Browse WordNet</b><br/><br/>
+<form action="wordnet" method="post" target="wordnet">
+<input id='wnsearch' name="wnsearch" type='text' value={{ wnsearch.encode("utf-8") }} />
+<select id="wnlang" name="wnlang">
+{% for l in langs %}
+	<option value='{{ l }}'{% if l == wnlang %} selected="yes"{% endif %}/>{{ l }}
+{% endfor %}
+</select>
+<input type="submit" value="Look it up"/>
+</form><br>
+
+{{ lookup|safe }}
+
+</body>
+</html>

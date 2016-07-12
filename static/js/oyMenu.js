@@ -776,10 +776,11 @@ oyCrosswordMenu.prototype.checkWord = function(clue){
 }
 
 oyCrosswordMenu.prototype.submitScore = function(){
+	/*
 	if (this.matches == 0){   
 		this.footer.stateError("Nothing to submit yet!");
 		alert("Nothing to submit yet!\nUncover some words first.");
-	} else {		  
+	} else {
 		var ms = new Date().getTime() - this.puzz.menu.startOn.getTime();
 		this.server.submitScore(
 			this, this.puzz.uid, 
@@ -789,4 +790,5 @@ oyCrosswordMenu.prototype.submitScore = function(){
 		); 
 		this.footer.stateBusy("Submitting score...");
 	}
+	*/
 }  
