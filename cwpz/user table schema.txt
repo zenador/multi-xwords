@@ -1,0 +1,18 @@
+CREATE TABLE `users` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`password` char(64) COLLATE utf8_unicode_ci NOT NULL,
+	`salt` char(16) COLLATE utf8_unicode_ci NOT NULL,
+	`email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	`gridlength` char(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '13',
+	`sollang` char(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'eng',
+	`cluelang` char(3) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'jpn',
+	`cluetype` char(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+	`clue2type` char(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+	`forceclue2` char(1) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+	`playcount` int(11) NOT NULL DEFAULT 0,
+	`partcat` char(2) COLLATE utf8_unicode_ci NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `username` (`username`),
+	UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB	DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;
