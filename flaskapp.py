@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
-from flask import Flask, request, flash, url_for, redirect, render_template, abort, send_from_directory, session
+from flask import Flask, request, flash, url_for, redirect, render_template, abort, send_from_directory, session, Response
+import zipfile
 
 app = Flask(__name__)
 app.config.from_pyfile('flaskapp.cfg')
@@ -50,7 +51,19 @@ def wordnet():
 
 @app.route('/getocal/wn-ocal/img/<path:filename>')
 def getocal(filename):
-    return send_from_directory(app.config['SERVE_OCAL_LOC']+"/wn-ocal/img", filename, as_attachment=False)
+	return send_from_directory(app.config['SERVE_OCAL_LOC']+"/wn-ocal/img", filename, as_attachment=False)
+
+@app.route('/staticzip/wn-ocal/img/<path:filename>')
+@app.route('/getocalzip/wn-ocal/img/<path:filename>')
+def getocalfromzip(filename):
+	try:
+		zip_path = os.path.join(app.config['SERVE_OCAL_LOC'], 'wn-ocal.zip')
+		filename = "wn-ocal/img/" + filename
+		with zipfile.ZipFile(zip_path) as zfp:
+			image_fp = zfp.open(filename, 'r')
+			return Response(image_fp, mimetype='image/jpeg')
+	except:
+		return Response()
 
 app.secret_key = app.config['SESSION_SECRET']
 
