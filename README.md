@@ -10,22 +10,28 @@ Allows players to solve multilingual crosswords that are randomly generated with
 
 ## Link
 
-[Try it out here](http://multi-xwords.rhcloud.com)
+[Try it out here](http://multi-xwords.a3c1.starter-us-west-1.openshiftapps.com)
 
-## Instructions to run locally
+## Instructions
 
-1. Download [wn-multi.db](https://www.dropbox.com/s/zo4u1lbvjuajm8a/wn-multi.db?dl=0) and [wnall.db](https://www.dropbox.com/s/3vszhzz4eafeoqo/wnall.db?dl=0), then copy them over to replace the empty placeholder files with the same name in `static/db`
-2. Download [wn-ocal.zip](https://www.dropbox.com/s/mz3r9vn0obpo3tt/wn-ocal.zip?dl=0), then place it in the `static` folder
-3. Ensure IS_OPENSHIFT is set to False in `flaskapp.cfg`
-4. Ensure OCAL_IS_ZIPPED is set to True in `flaskapp.cfg`, or you can set it to False and unzip wn-ocal.zip in place (`wn-ocal` folder as subfolder of `static`)
-5. Run with Flask's built-in dev server by running `python flaskapp.py` at folder root
+1. Download [wn-multi.db](https://www.dropbox.com/s/zo4u1lbvjuajm8a/wn-multi.db?dl=0) and [wnall.db](https://www.dropbox.com/s/3vszhzz4eafeoqo/wnall.db?dl=0), then copy them over to replace the empty placeholder files with the same name in `staticb/db`
+2. Download [wn-ocal.zip](https://www.dropbox.com/s/mz3r9vn0obpo3tt/wn-ocal.zip?dl=0), then place it in the `staticb` folder
+3. Ensure OCAL_IS_ZIPPED is set to True in `flaskapp.cfg`, or you can set it to False and unzip wn-ocal.zip in place (`wn-ocal` folder as subfolder of `staticb`)
 
-## Instructions to deploy to OpenShift
+### To run locally
 
-1. Download [wn-multi.db](https://www.dropbox.com/s/zo4u1lbvjuajm8a/wn-multi.db?dl=0) and [wnall.db](https://www.dropbox.com/s/3vszhzz4eafeoqo/wnall.db?dl=0), then upload them to OPENSHIFT_DATA_DIR under the subfolder `db`
-2. Download [wn-ocal.zip](https://www.dropbox.com/s/mz3r9vn0obpo3tt/wn-ocal.zip?dl=0), then upload the zip file to OPENSHIFT_DATA_DIR
-3. Ensure IS_OPENSHIFT is set to True in `flaskapp.cfg`
-4. Ensure OCAL_IS_ZIPPED is set to True in `flaskapp.cfg`, or you can set it to False and unzip wn-ocal.zip in place (`wn-ocal` folder as subfolder of OPENSHIFT_DATA_DIR)
-5. Deploy to OpenShift
+Run with Flask's built-in dev server by running `python flaskapp.py` at folder root
 
-(To upload to OPENSHIFT_DATA_DIR, you can [FTP into your OpenShift app](https://blog.openshift.com/using-filezilla-and-sftp-on-windows-with-openshift/), then go to `app-root/data`)
+### To deploy to OpenShift
+
+Upload big files in `staticb` to OpenShift Online v3
+
+#### web console
+- create an ebs persistent volume with RWO access mode under storage
+- link to it with `Add Storage` under your deployment configuration and mount it to `/data`
+- set your `OPENSHIFT_DATA_DIR` environment variable as `/data/staticb`)
+
+#### command prompt / terminal
+- login to the openshift cli
+- cd to your local repo folder
+- `oc rsync staticb <deployment pod name>:/data`

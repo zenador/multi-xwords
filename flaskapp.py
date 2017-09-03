@@ -53,7 +53,6 @@ def wordnet():
 def getocal(filename):
 	return send_from_directory(app.config['SERVE_OCAL_LOC']+"/wn-ocal/img", filename, as_attachment=False)
 
-@app.route('/staticzip/wn-ocal/img/<path:filename>')
 @app.route('/getocalzip/wn-ocal/img/<path:filename>')
 def getocalfromzip(filename):
 	try:
@@ -65,10 +64,8 @@ def getocalfromzip(filename):
 	except:
 		return Response()
 
-app.secret_key = app.config['SESSION_SECRET']
+app.secret_key = app.config['SECRET_KEY']
 
 if __name__ == '__main__':
-	if app.config['IS_OPENSHIFT']:
-		app.run()
-	else:
-		app.run(debug=True)
+	# app.run(debug=True)
+	app.run()
