@@ -57,7 +57,7 @@
 	<input type="checkbox" name="forceclue2" value="1"{% if session.forceclue2 == '1' %} checked="checked"{% endif %}/><br/><br/>
 
 	Custom Word List<br/>
-	<textarea name="notebook">{% if session.notebook %}{{ session.notebook.decode("utf-8") }}{% endif %}</textarea><br/>
+	<textarea name="notebook">{% if session.notebook %}{{ session.notebook }}{% endif %}</textarea><br/>
 
 	<input type="button" value="Generate Puzzle" onClick="subandref()" />
 

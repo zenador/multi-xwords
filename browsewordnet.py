@@ -57,15 +57,15 @@ def browse(wnsearch, wnlang):
 			lookup += "<br/><b>language code:</b> "
 			lookup += wnlang
 			lookup += "<br/><b>part of speech:</b> "
-			lookup += wnpos.encode("utf-8")
+			lookup += wnpos
 			lookup += "<br/><b>name:</b> "
 			lookup += wnname
 			lookup += "<br/><br/><b>lemmas:</b> "
-			lookup += ", ".join(i.replace("_", " ").encode("utf-8") for i in wnwords)
+			lookup += ", ".join(i.replace("_", " ") for i in wnwords)
 			lookup += "<br/><br/><b>definitions:</b><ul>"
-			lookup += "\n".join("<li>%s</li>"%i.encode("utf-8") for i in wndefs)
+			lookup += "\n".join("<li>{}</li>".format(i) for i in wndefs)
 			lookup += "</ul><b>ex:</b><ul>"
-			lookup += "\n".join("<li>%s</li>"%i.encode("utf-8") for i in wnegs)
+			lookup += "\n".join("<li>{}</li>".format(i) for i in wnegs)
 			lookup += "</ul>"
 			for ltype in ["also", "syns", "hype", "inst", "hypo", "hasi", "mero", "mmem", "msub", "mprt", "holo", "hmem", "hsub", "hprt", "attr", "sim", "enta", "caus", "dmnc", "dmnu", "dmnr", "dmtc", "dmtu", "dmtr", "ants"]:
 				goahead = False
@@ -86,7 +86,7 @@ def browse(wnsearch, wnlang):
 				wnwords = []
 				for [wnword] in conn.execute("SELECT word.lemma FROM sense, word WHERE sense.synset=? AND sense.lang=? AND sense.wordid=word.wordid", [synset, wnlang]):
 					wnwords.append(wnword)
-				lookup += ", ".join(i.replace("_", " ").encode("utf-8") for i in wnwords)
+				lookup += ", ".join(i.replace("_", " ") for i in wnwords)
 				wndefone = []
 				for [wndef] in conn.execute("SELECT def FROM synset_def WHERE synset=? AND lang=? LIMIT 1", [synset, wnlang]): # even though it's only one, this is used to avoid multiple try except blocks
 					wndef = re.sub(r'"', '&quot;', wndef)
@@ -98,7 +98,7 @@ def browse(wnsearch, wnlang):
 						wndef = re.sub(r"'", '&quot;', wndef)
 						wndefone.append(wndef)
 				if wndefone:
-					wndef = wndefone[0].encode("utf-8")
+					wndef = wndefone[0]
 				else:
 					wndef = ""
 				lookup += "</b><br/>"

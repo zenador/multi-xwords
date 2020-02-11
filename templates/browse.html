@@ -28,7 +28,7 @@ $('a.tag-copy').live('click', function(e){
 
 <b>Browse WordNet</b><br/><br/>
 <form action="wordnet" method="post" target="wordnet">
-<input id='wnsearch' name="wnsearch" type='text' value={{ wnsearch.encode("utf-8") }} />
+<input id='wnsearch' name="wnsearch" type='text' value={{ wnsearch }} />
 <select id="wnlang" name="wnlang">
 {% for l in langs %}
 	<option value='{{ l }}'{% if l == wnlang %} selected="yes"{% endif %}/>{{ l }}

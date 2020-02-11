@@ -22,7 +22,7 @@ def prog():
 		session['cluetype'] = request.form.get('cluetype', '1')
 		session['clue2type'] = request.form.get('clue2type', '2')
 		session['forceclue2'] = request.form.get('forceclue2', '0')
-		session['notebook'] = request.form.get('notebook', '').encode("utf-8")
+		session['notebook'] = request.form.get('notebook', '')
 		gridlength, sollang, cwid, listtuple = run(session)
 		return render_template('puzzle.html', gridlength=gridlength, sollang=sollang, cwid=cwid, listtuple=listtuple)
 	else:
@@ -45,7 +45,7 @@ def wordnet():
 	elif request.method == 'GET':
 		wnsearch = request.args.get('wnsearch', wnsearch)
 		wnlang = request.args.get('wnlang', wnlang)
-	wnsearch = wnsearch.lower().strip().decode("utf-8")
+	wnsearch = wnsearch.lower().strip()
 	lookup = browse(wnsearch, wnlang)
 	return render_template('browse.html', langs=["eng","cmn","jpn"], wnsearch=wnsearch, wnlang=wnlang, lookup=lookup)
 

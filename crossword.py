@@ -383,7 +383,7 @@ class Crossword(object):
 	def listthetuples(self):
 		listtuple = []
 		for word in self.current_word_list:
-			listtuple.append((word.length, "\""+word.clue.encode('utf-8')+"\"", "\""+word.word.encode('utf-8')+"\"", "\"\"", word.down_across_int(), word.col, word.row, "\""+word.clue2.encode('utf-8')+"\"", "\""+word.synset+"\""))
+			listtuple.append((word.length, "\""+word.clue+"\"", "\""+word.word+"\"", "\"\"", word.down_across_int(), word.col, word.row, "\""+word.clue2+"\"", "\""+word.synset+"\""))
 		return listtuple
 
 class Word(object):
@@ -632,7 +632,7 @@ def run(session):
 			#SELECT * FROM sense WHERE wordid=85237 ORDER BY ABS(freq) DESC, RANDOM()	=
 			#SELECT word.lemma, sense.synset FROM word, sense WHERE word.lemma='dog' AND word.lang='eng' AND word.wordid=sense.wordid ORDER BY ABS(sense.freq) DESC, RANDOM()
 			for lemma in words:
-				synname = lemma.decode('utf-8')
+				synname = lemma
 				isFound = False
 				if sollang == 'jpn':
 					try:
@@ -712,8 +712,8 @@ def run(session):
 
 		conn.close()
 
-		# somewords.items() IS EQUIVALENT TO [(k,v) for k, v in somewords.iteritems()]
-		word_list = [(k,v1,v2,v3) for k, (v1, v2, v3) in somewords.iteritems()]
+		# somewords.items() IS EQUIVALENT TO [(k,v) for k, v in somewords.items()]
+		word_list = [(k,v1,v2,v3) for k, (v1, v2, v3) in somewords.items()]
 
 		a = Crossword(gridlength, gridlength, ' ', 5000, word_list)
 		a.compute_crossword(1,2) # seconds, passes
@@ -730,7 +730,7 @@ def run(session):
 		print end_full - start_full
 		'''
 		listtuple = a.listthetuples()
-		listtuple = [", ".join([str(i) for i in word]).decode('utf-8').replace('&#34;', '"') for word in listtuple]
+		listtuple = [", ".join([str(i) for i in word]).replace('&#34;', '"') for word in listtuple]
 		numnow = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 		random5 = str(random.randint(0, 99999)).zfill(5)
 		cwid = numnow+random5
@@ -740,6 +740,6 @@ def run(session):
 		errlog.write("\n"+errtime)
 		traceback.print_exc(None, errlog)
 		errlog.close()
-		print "<p>CGI Error, please check the site error log for details.</p>"
-		print traceback.format_exc()
+		print("<p>CGI Error, please check the site error log for details.</p>")
+		print(traceback.format_exc())
 	return gridlength, sollang, cwid, listtuple
