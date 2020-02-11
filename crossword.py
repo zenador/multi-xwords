@@ -294,7 +294,7 @@ class Crossword(object):
 		for r in range(self.rows):
 			outStr += '<tr>'
 			for c in self.grid[r]:
-				outStr += '<td>%s</td>' %c
+				outStr += '<td>{}</td>'.format(c)
 			outStr += '</tr>'
 		outStr += '</table>'
 
@@ -306,9 +306,9 @@ class Crossword(object):
 		for r in range(self.rows):
 			for c in self.grid[r]:
 				if c == self.empty:
-					outStr += '%s ' % string.lowercase[random.randint(0,len(string.lowercase)-1)]
+					outStr += '{} '.format(string.lowercase[random.randint(0,len(string.lowercase)-1)])
 				else:
-					outStr += '%s ' % c
+					outStr += '{} '.format(c)
 			outStr += '\n'
 
 		'''
@@ -350,7 +350,7 @@ class Crossword(object):
  
 		for r in range(copy.rows):
 			for c in copy.grid[r]:
-				outStr += '%s ' % c
+				outStr += '{} '.format(c)
 			outStr += '\n'
  
 		'''
@@ -371,13 +371,13 @@ class Crossword(object):
 		temp_list = duplicate(self.current_word_list)
 		random.shuffle(temp_list) # randomize word list
 		for word in temp_list:
-			outStr += '%s\n<br/>' %(word.word)
+			outStr += '{}\n<br/>'.format(word.word)
 		return outStr
  
 	def legend(self): # must order first
 		outStr = ''
 		for word in self.current_word_list:
-			outStr += '%d. (%d,%d) %s: %s - %s\n<br/>' % (word.number, word.col, word.row, word.down_across(), word.clue, word.word )
+			outStr += '{}. ({},{}) {}: {} - {}\n<br/>'.format(word.number, word.col, word.row, word.down_across(), word.clue, word.word)
 		return outStr
  
 	def listthetuples(self):
@@ -466,7 +466,7 @@ def getclues(conn, synset, synname, gridlength, sollang, cluelang, cluetype, clu
 		aword.append(synkanji.replace("_", " "))
 	elif cluetype == 5:
 		for [syndef] in conn.execute("SELECT def FROM synset_def WHERE synset=? AND lang='img' ORDER BY random()", [synset]):
-			aword.append("""<img width=20px src='%s/wn-ocal/img/%s.png' alt='%s' onMouseover=\\"ddrivetip('<img width=150px src=&quot;%s/wn-ocal/img/%s.png&quot; alt=&quot;%s&quot;>')\\" onMouseout='hideddrivetip()'>""" %(OCAL_LOC,syndef,syndef,OCAL_LOC,syndef,syndef))
+			aword.append("""<img width=20px src='{}/wn-ocal/img/{}.png' alt='{}' onMouseover=\\"ddrivetip('<img width=150px src=&quot;{}/wn-ocal/img/{}.png&quot; alt=&quot;{}&quot;>')\\" onMouseout='hideddrivetip()'>""".format(OCAL_LOC,syndef,syndef,OCAL_LOC,syndef,syndef))
 		if (len(aword) < 1):
 			returnEarly = True
 
@@ -502,7 +502,7 @@ def getclues(conn, synset, synname, gridlength, sollang, cluelang, cluetype, clu
 		bword.append(synkanji.replace("_", " "))
 	elif clue2type == 5:
 		for [syndef] in conn.execute("SELECT def FROM synset_def WHERE synset=? AND lang='img' ORDER BY random()", [synset]):
-			bword.append("""<img width=20px src='%s/wn-ocal/img/%s.png' alt='%s' onMouseover=\\"ddrivetip('<img width=150px src=&quot;%s/wn-ocal/img/%s.png&quot; alt=&quot;%s&quot;>')\\" onMouseout='hideddrivetip()'>""" %(OCAL_LOC,syndef,syndef,OCAL_LOC,syndef,syndef))
+			bword.append("""<img width=20px src='{}/wn-ocal/img/{}.png' alt='{}' onMouseover=\\"ddrivetip('<img width=150px src=&quot;{}/wn-ocal/img/{}.png&quot; alt=&quot;{}&quot;>')\\" onMouseout='hideddrivetip()'>""".format(OCAL_LOC,syndef,syndef,OCAL_LOC,syndef,syndef))
 		if forceclue2:
 			if (len(bword) < 1):
 				returnEarly = True

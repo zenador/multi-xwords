@@ -74,15 +74,15 @@ def browse(wnsearch, wnlang):
 						goahead = True
 				if goahead:
 					[ltypefull] = conn.execute("SELECT def FROM link_def WHERE link=?", [ltype]).fetchone()
-					lookup += "<br/><b>%s:</b> " %ltypefull
-					lookup += ", ".join("<a href='?wnsearch=%s&wnlang=%s'>%s</a>"%(k,wnlang,i.replace("_", " ")) for (i,j,k) in wnlinks if j == ltype)
+					lookup += "<br/><b>{}:</b> ".format(ltypefull)
+					lookup += ", ".join("<a href='?wnsearch={}&wnlang={}'>{}</a>".format(k,wnlang,i.replace("_", " ")) for (i,j,k) in wnlinks if j == ltype)
 		else: # searching a word
 			lemma = wnsearch
 			foundsomething = False
 			#for [synset] in conn.execute("SELECT sense.synset FROM word, sense WHERE word.lemma like ? escape '/' AND word.lang=? AND word.wordid=sense.wordid", ["%"+lemma+"%", wnlang]): # this is the more lenient version, may get too many false hits
 			for [synset] in conn.execute("SELECT sense.synset FROM word, sense WHERE word.lemma=? AND word.lang=? AND word.wordid=sense.wordid", [lemma, wnlang]):
 				foundsomething = True
-				lookup += "<a href='?wnsearch=%s&wnlang=%s'>%s</a><br/><b>"%(synset,wnlang,synset)
+				lookup += "<a href='?wnsearch={}&wnlang={}'>{}</a><br/><b>".format(synset,wnlang,synset)
 				wnwords = []
 				for [wnword] in conn.execute("SELECT word.lemma FROM sense, word WHERE sense.synset=? AND sense.lang=? AND sense.wordid=word.wordid", [synset, wnlang]):
 					wnwords.append(wnword)
