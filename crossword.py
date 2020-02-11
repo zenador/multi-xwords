@@ -298,7 +298,7 @@ class Crossword(object):
 			outStr += '</tr>'
 		outStr += '</table>'
 
-		return outStr.encode('utf-8')
+		return outStr
  
 	def word_find(self): # return solution grid
 		outStr = ""
@@ -324,7 +324,7 @@ class Crossword(object):
 		outStr += '</table>'
 		'''
 
-		return outStr.encode('utf-8')
+		return outStr
  
 	def order_number_words(self): # orders words and applies numbering system to them
 		self.current_word_list.sort(key=lambda i: (i.col + i.row))
@@ -364,7 +364,7 @@ class Crossword(object):
 		'''
  
 		outStr = re.sub(r'[a-z]', ' ', outStr)
-		return outStr.encode('utf-8')
+		return outStr
  
 	def word_bank(self): 
 		outStr = ''
@@ -372,13 +372,13 @@ class Crossword(object):
 		random.shuffle(temp_list) # randomize word list
 		for word in temp_list:
 			outStr += '%s\n<br/>' %(word.word)
-		return outStr.encode('utf-8')
+		return outStr
  
 	def legend(self): # must order first
 		outStr = ''
 		for word in self.current_word_list:
 			outStr += '%d. (%d,%d) %s: %s - %s\n<br/>' % (word.number, word.col, word.row, word.down_across(), word.clue, word.word )
-		return outStr.encode('utf-8')
+		return outStr
  
 	def listthetuples(self):
 		listtuple = []
@@ -668,7 +668,6 @@ def run(session):
 					else:
 						continue
 			for (synset, synname) in setwords:
-				synname = synname.decode('utf-8')
 				if (1 < len(synname) < gridlength and (re.search(r"[\W\d_]",synname,re.UNICODE) == None)):
 					if cluetype == 4:
 						try:
@@ -686,7 +685,6 @@ def run(session):
 							continue
 					somewords = getclues(conn, synset, synname, gridlength, sollang, cluelang, cluetype, clue2type, forceclue2, somewords)
 			for (synname, aword, bword) in byewordnet:
-				synname = synname.decode('utf-8')
 				if (1 < len(synname) < gridlength and (re.search(r"[\W\d_]",synname,re.UNICODE) == None)):
 					aword = aword.replace('"', '&quot;')
 					bword = bword.replace('"', '&#39;&#39;').replace("'", '&#39;')

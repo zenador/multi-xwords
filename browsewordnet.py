@@ -53,7 +53,7 @@ def browse(wnsearch, wnlang):
 				wnlinks.append((wntwin, wnltype, wntwinid))
 
 			lookup += "<b>synset id:</b> "
-			lookup += '<a href="#" class="tag-copy classylink">%s</a>' %wnsearch
+			lookup += '{}'.format(wnsearch)
 			lookup += "<br/><b>language code:</b> "
 			lookup += wnlang
 			lookup += "<br/><b>part of speech:</b> "
