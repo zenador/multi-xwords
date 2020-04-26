@@ -10,7 +10,8 @@ Allows players to solve multilingual crosswords that are randomly generated with
 
 ## Link
 
-[Try it out here](http://multi-xwords.a3c1.starter-us-west-1.openshiftapps.com)
+~[Try it out here](http://multi-xwords.a3c1.starter-us-west-1.openshiftapps.com)~
+Unfortunately, can't find any more persistent free hosting with enough storage for the databases, so this can only run locally
 
 ## Instructions
 
