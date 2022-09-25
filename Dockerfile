@@ -6,4 +6,5 @@ RUN \
     bash ./download.sh && \
     pip install -r ./requirements.txt
 COPY . .
-CMD ["python", "flaskapp.py"]
+# CMD ["python", "flaskapp.py"]
+CMD ["gunicorn", "flaskapp:app", "-b", "0.0.0.0:8005"]

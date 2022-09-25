@@ -10,8 +10,7 @@ Allows players to solve multilingual crosswords that are randomly generated with
 
 ## Link
 
-~[Try it out here](http://multi-xwords.a3c1.starter-us-west-1.openshiftapps.com)~
-Unfortunately, can't find any more persistent free hosting with enough storage for the databases, so this can only run locally
+Please check the repo's `About` section for the link.
 
 ## Instructions
 
@@ -19,7 +18,7 @@ Unfortunately, can't find any more persistent free hosting with enough storage f
 
 ```
 docker image build -t xwords .
-docker run -p 5000:5000 xwords
+docker run -p 8005:8005 xwords
 ```
 
 ### Without Docker
